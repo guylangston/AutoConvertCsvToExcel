@@ -17,20 +17,28 @@ if (!File.Exists(inp))
    return -3;
 }
 
-Console.WriteLine($"Input File: {inp}");
+
+var info = new FileInfo(inp);
+Console.WriteLine($"Input File: {info.FullName}");
 
 // Create new workbook
 
 // Read Input
-var reader = File.OpenText(inp);
-string? ln = null;
-var lnCount = 0;
-while( (ln = reader.ReadLine()) != null)
+var readerTxt = File.OpenText(inp);
+var rowIdx = 0;
+var cellCount = 0;
+var reader = new SerialReaderCSV(readerTxt);
+foreach (var row in reader.ForEachRow())
 {
-
-   lnCount++;
+   var colIdx = 0;
+   foreach(var cell in row)
+   {
+      cellCount++;
+      colIdx++;
+   }
+    rowIdx++;
 }
 
-Console.WriteLine($"Lines Read: {lnCount}");
+Console.WriteLine($"Lines Read: {rowIdx}; Total Cells: {cellCount}");
 
 return 0;
