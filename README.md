@@ -1,5 +1,5 @@
 # AutoConvertCsvToExcel
-> Open an `.CSV` (comma seperated values) file will automatically convert to Microsoft Excel `.XLSX`
+> Opening an `.CSV` (comma seperated values) file will automatically convert the file to Microsoft Excel `.XLSX`, then open the new file in Excel.
 
 Excel users often download `.CSV` files from the internet (from online banking, etc), then make changes to the file. When Excel saves it is very wasy to loose all of your work by mistake.
 
