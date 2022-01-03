@@ -21,5 +21,5 @@ Excel users often download `.CSV` files from the internet (from online banking, 
   - imports `statement.csv`
   - converts it `.XLSX`
   - writes `statement.xlsx`
-  - writes `statement-converted.csv`
+  - writes `statement-backup-2022-01-01--13h45m54s.csv`
 - Opens `statement.xlsx` in Excel
