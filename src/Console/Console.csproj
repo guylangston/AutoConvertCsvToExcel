@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <RootNamespace>AutoConvertCsvToExcel</RootNamespace>
+    <AssemblyName>AutoConvertCsvToExcel</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
