@@ -1,20 +1,27 @@
-﻿if (args.Length == 0)
+﻿Console.WriteLine("AutoConvertCsvToExcel - Convert .CSV to .XSLX then open. Version 1.0");
+Console.WriteLine("https://github.com/guylangston/AutoConvertCsvToExcel");
+Console.WriteLine();
+
+if (args.Length == 0)
 {
     Console.Error.WriteLine("No files given. Exiting");
-    return -1;
+    DisplayHelp();
+    return 1;
 }
 
 var inp = args[0];
 if (!string.Equals(Path.GetExtension(inp), ".csv", StringComparison.InvariantCultureIgnoreCase))
 {
     Console.Error.WriteLine("Input file is not .CSV");
-    return -2;
+    DisplayHelp();
+    return 2;
 }
 
 if (!File.Exists(inp))
 {
     Console.Error.WriteLine("Input File does not exit. Exiting...");
-    return -3;
+    DisplayHelp();
+    return 3;
 }
 
 var info = new FileInfo(inp);
@@ -32,7 +39,8 @@ if (File.Exists(outFilePath))
     else
     {
         Console.Error.WriteLine("Output file already exists... Stopping");
-        return -4;
+        DisplayHelp();
+        return 4;
     }
     
 }
@@ -101,3 +109,10 @@ System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
     FileName = outFilePath
 });
 return 0;
+
+
+void DisplayHelp()
+{
+    Console.WriteLine("usage: AutoConvertCsvToExcel.exe {input-file.csv}");
+    Console.WriteLine("usage: AutoConvertCsvToExcel.exe {input-file.csv} -f             // Overwrite target");
+}

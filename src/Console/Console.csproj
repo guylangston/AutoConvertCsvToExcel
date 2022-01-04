@@ -7,6 +7,16 @@
     <Nullable>enable</Nullable>
     <RootNamespace>AutoConvertCsvToExcel</RootNamespace>
     <AssemblyName>AutoConvertCsvToExcel</AssemblyName>
+
+    <!-- https://docs.microsoft.com/en-us/dotnet/core/deploying/single-file -->
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>true</SelfContained>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <PublishReadyToRun>true</PublishReadyToRun>
+
+    <!-- https://docs.microsoft.com/en-us/dotnet/core/deploying/trimming/trim-self-contained -->
+    <PublishTrimmed>true</PublishTrimmed>
+    
   </PropertyGroup>
 
   <ItemGroup>
