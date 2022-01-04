@@ -15,6 +15,8 @@ public class SerialReaderCSV
 
     public IEnumerable<List<string>> ForEachRow()
     {
+        if (IsEndOfFile) throw new Exception("EOF");
+
         string? line = null;
         while ((line = reader.ReadLine()) != null)
         {
