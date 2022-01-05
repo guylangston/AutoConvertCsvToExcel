@@ -9,11 +9,15 @@ if (args.Length == 0)
     return 1;
 }
 
+var afterwards = InputFileAfterwards.Nothing;
+if (HasFlag("rename")) afterwards = InputFileAfterwards.Rename;
+if (HasFlag("delete")) afterwards = InputFileAfterwards.Delete;
+
 var cmd = new AppCommand(
     args[0], 
     HasFlag("f"),       // _F_orce Overwrite 
     TimeSpan.FromSeconds(3),
-    InputFileAfterwards.Rename,
+    afterwards,
     HasFlag("sl")       // _S_kip _L_aunch
     );
 
