@@ -2,6 +2,7 @@
 var app = new App(ui);
 app.DisplayHeader();
 
+ui.Debug(Environment.ProcessPath);
 
 if (args.Length == 0)
 {

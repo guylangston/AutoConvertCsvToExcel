@@ -11,4 +11,9 @@ public class ConsoleUI : IAppFeedback
     public void WriteLine(string txt)=> Console.WriteLine(txt);
 
     public void WriteLine()=> Console.WriteLine();
+
+    public void Debug(string txt)
+    {
+         Console.Debug.WriteLine(txt);
+    }
 }

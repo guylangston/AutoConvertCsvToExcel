@@ -7,6 +7,8 @@ public interface IAppFeedback
 
     void WriteLine(string txt);
     void WriteLine();
+
+    void Debug(string txt);
 }
 
 public enum InputFileAfterwards
