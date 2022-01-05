@@ -1,118 +1,22 @@
-﻿Console.WriteLine("AutoConvertCsvToExcel - Convert .CSV to .XSLX then open. Version 1.0");
-Console.WriteLine("https://github.com/guylangston/AutoConvertCsvToExcel");
-Console.WriteLine();
+﻿var ui = new ConsoleUI();
+var app = new App(ui);
+app.DisplayHeader();
+
 
 if (args.Length == 0)
 {
-    Console.Error.WriteLine("No files given. Exiting");
-    DisplayHelp();
+    app.DisplayHelp();
     return 1;
 }
 
-var inp = args[0];
-if (!string.Equals(Path.GetExtension(inp), ".csv", StringComparison.InvariantCultureIgnoreCase))
-{
-    Console.Error.WriteLine("Input file is not .CSV");
-    DisplayHelp();
-    return 2;
-}
+var cmd = new AppCommand(
+    args[0], 
+    HasFlag("f"),       // _F_orce Overwrite 
+    TimeSpan.FromSeconds(3),
+    InputFileAfterwards.Rename,
+    HasFlag("sl")       // _S_kip _L_aunch
+    );
 
-if (!File.Exists(inp))
-{
-    Console.Error.WriteLine("Input File does not exit. Exiting...");
-    DisplayHelp();
-    return 3;
-}
+return app.Run(cmd);
 
-var info = new FileInfo(inp);
-Console.WriteLine($"  [Input] {info.FullName}");
-
-var outFilePath = Path.Combine(info.DirectoryName, Path.GetFileNameWithoutExtension(info.Name) + ".xlsx");
-Console.WriteLine($" [Output] {outFilePath}");
-
-if (File.Exists(outFilePath))
-{
-    if (args.Any(x=>x.Equals("-f", StringComparison.CurrentCultureIgnoreCase)))
-    {
-        Console.WriteLine($"WARNING: Overwiting {outFilePath}");
-    }
-    else
-    {
-        Console.Error.WriteLine("Output file already exists... Stopping");
-        DisplayHelp();
-        return 4;
-    }
-    
-}
-
-// Create new workbook
-var wb = new NPOI.XSSF.UserModel.XSSFWorkbook();
-var sheet = wb.CreateSheet();
-
-var dataFormatCustom = wb.CreateDataFormat();
-var styleDate = wb.CreateCellStyle();
-styleDate.DataFormat = dataFormatCustom.GetFormat("yyyy-MM-dd");
-
-var styleDateTime = wb.CreateCellStyle();
-styleDateTime.DataFormat = dataFormatCustom.GetFormat("yyyy-MM-dd hh:mm:ss");
-
-
-// Read Input
-var readerTxt = File.OpenText(inp);
-var rowIdx = 0;
-var cellCount = 0;
-var reader = new SerialReaderCSV(readerTxt);
-foreach (var row in reader.ForEachRow())
-{
-    var colIdx = 0;
-
-    var outRow = sheet.CreateRow(rowIdx);
-    foreach (var cell in row)
-    {
-        var outCell = outRow.CreateCell(colIdx);
-
-        if (DateTime.TryParse(cell, out var dt))
-        {
-            outCell.SetCellValue(dt);
-            outCell.CellStyle = (dt.TimeOfDay.TotalSeconds == 0)
-             ? styleDate
-             : styleDateTime;
-
-        }
-        else if (double.TryParse(cell, out var num))
-        {
-            outCell.SetCellValue(num);
-        }
-        else
-        {
-            outCell.SetCellValue(cell);
-        }
-        
-
-        cellCount++;
-        colIdx++;
-    }
-
-    rowIdx++;
-}
-
-
-using var outFile = File.Create(outFilePath);
-wb.Write(outFile);
-
-Console.WriteLine($"[Convert] Rows: {rowIdx}; Cells: {cellCount}");
-
-Console.WriteLine($" [Launch] Excel (or associated program from .XLSX)");
-System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
-{
-    UseShellExecute = true,
-    FileName = outFilePath
-});
-return 0;
-
-
-void DisplayHelp()
-{
-    Console.WriteLine("usage: AutoConvertCsvToExcel.exe {input-file.csv}");
-    Console.WriteLine("usage: AutoConvertCsvToExcel.exe {input-file.csv} -f             // Overwrite target");
-}
+bool HasFlag(string flag) => args.Any(x => string.Equals(x, "-" + flag, StringComparison.CurrentCultureIgnoreCase));
