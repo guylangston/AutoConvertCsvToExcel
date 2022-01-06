@@ -2,7 +2,6 @@
 var app = new App(ui);
 app.DisplayHeader();
 
-ui.Debug(Environment.ProcessPath);
 if (args.Length == 0)
 {
     app.DisplayHelp();
@@ -15,10 +14,10 @@ if (HasFlag("delete")) afterwards = InputFileAfterwards.Delete;
 
 var cmd = new AppCommand(
     args[0], 
-    HasFlag("f"),       // _F_orce Overwrite 
+    HasFlag("f"),       
     TimeSpan.FromSeconds(3),
     afterwards,
-    HasFlag("sl")       // _S_kip _L_aunch
+    !HasFlag("sl")     
     );
 
 return app.Run(cmd);

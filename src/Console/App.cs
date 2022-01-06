@@ -182,6 +182,9 @@ public class App
     public void DisplayHelp()
     {
         ui.WriteLine("usage: AutoConvertCsvToExcel.exe {input-file.csv}");
-        ui.WriteLine("usage: AutoConvertCsvToExcel.exe {input-file.csv} -f             // Overwrite target");
+        ui.WriteLine(" -f         Overwrite target");
+        ui.WriteLine(" -sl        Skip Launch (associated OS program)");
+        ui.WriteLine(" -delete    After import, DELETE source file");
+        ui.WriteLine(" -rename    After import, RENAME source file");
     }
 }
