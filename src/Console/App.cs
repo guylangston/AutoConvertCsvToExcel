@@ -62,7 +62,9 @@ public class App
 
         if (cmd.OutFile == null)
         {
-            cmd.OutFile = Path.Combine(info.DirectoryName, Path.GetFileNameWithoutExtension(info.Name) + ".xlsx");
+            cmd.OutFile = Path.Combine(
+                  info.DirectoryName ?? throw new Exception("Dir required"), 
+                  Path.GetFileNameWithoutExtension(info.Name) + ".xlsx");
         }
 
         ui.WriteLine($" [Output] {cmd.OutFile}");
@@ -90,7 +92,6 @@ public class App
 
         var styleDateTime = wb.CreateCellStyle();
         styleDateTime.DataFormat = dataFormatCustom.GetFormat("yyyy-MM-dd hh:mm:ss");
-
 
         // Read Input
         using (var readerTxt = File.OpenText(cmd.InputFile))
